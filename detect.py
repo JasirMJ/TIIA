@@ -89,7 +89,6 @@ while cv2.waitKey(1)<0 :
 
         API_ENDPOINT = URL+"detect/"
 
-
         data = {
             'age':age,
             'gender': gender,

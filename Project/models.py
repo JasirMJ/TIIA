@@ -24,8 +24,15 @@ class Adverticements(models.Model):
         ('(48-53)','(48-53)'),
         ('(60-100)','(60-100)'),
     ])
-
     images = models.ManyToManyField(Images)
+    gender = models.CharField(max_length=20,null=False,choices=[
+        ('m', 'Male'),
+        ('f','Female'),
+    ])
+
+
+    def __str__(self):
+        return str(self.id)+" - "+self.range+" : "+self.gender+" : "
 
 class Announcement(models.Model):
     message = models.TextField(max_length=500)

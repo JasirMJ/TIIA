@@ -1,7 +1,7 @@
 STATUS="Status"
 MESSAGE="Message"
 KEY = "Key"
-IP="192.168.42.68"
+IP="192.168.42.211"
 
 
 URL = "http://"+IP+":8000/"
@@ -26,7 +26,6 @@ Installataion
 
 ----------------------------
 
-
 In terminal
 first> python manage.py runserver 0.0.0.0:8000
 then you get ip of your system in console, copy and replace it on config.py
@@ -35,4 +34,8 @@ second> python detect.py
 In third terminal 
 third> python TextToSpeech.py
 then see the UI, its all done
+
+Admin
+u : Tiia
+p : tiiatiia
 '''

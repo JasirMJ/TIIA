@@ -89,6 +89,7 @@ def main():
 
 
 class DetectView(ListAPIView):
+    serializer_class = AdsSerializer
     def put(self,request):
         return Response(
             {
@@ -106,25 +107,22 @@ class DetectView(ListAPIView):
                 "Message":"Detection mode started"
             }
         )
-    def get(self,request):
+    def get_queryset(self):
         # data = main()
-        data = Ads.objects.first()
-        # print(type(data))
-        print(data)
-        # print(data['age'])
-        # print(data['gender'])
+        data = Ads.objects.all()
+        return data
 
         # os.system("python ./Project/detect.py")
 
-        return Response(
-            {
-                "Status":True,
-                "age":data.age,
-                "gender":data.gender,
-                "you":data.you,
-                "bot":data.bot,
-            }
-        )
+        # return Response(
+        #     {
+        #         "Status":True,
+        #         "age":data.age,
+        #         "gender":data.gender,
+        #         "you":data.you,
+        #         "bot":data.bot,
+        #     }
+        # )
 
 
     def post(self,request):
@@ -135,8 +133,14 @@ class DetectView(ListAPIView):
             print("Image data recieved ")
             age=self.request.POST.get('age')
             gender=self.request.POST.get('gender')
+            gend = gender.lower()
+            if gend =="male":
+                gend="m"
+            else:
+                gend="f"
+
             obj.age=age
-            obj.gender=gender
+            obj.gender=gend
         elif self.request.POST.get("Key") == "voice":
             print("Voice data recieved ")
 
@@ -190,6 +194,10 @@ def speak(audioString):
     # engine.runAndWait()
 
 class Announce(ListAPIView):
+    serializer_class = AnnouncementSerializer
+    def get_queryset(self):
+        queryset = Announcement.objects.filter(id=1)
+        return queryset
     def post(self,request):
         message = self.request.POST.get("message")
         speak(message)
