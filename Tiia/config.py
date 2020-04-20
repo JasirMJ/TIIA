@@ -1,7 +1,7 @@
 STATUS="Status"
 MESSAGE="Message"
 KEY = "Key"
-IP="192.168.42.211"
+IP="192.168.43.188"
 
 
 URL = "http://"+IP+":8000/"
@@ -23,6 +23,7 @@ Installataion
     pip install pyttsx3
 6.pywin32
     pip install pywin32
+7.pyaudio
 
 ----------------------------
 
