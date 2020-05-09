@@ -192,6 +192,16 @@ def speak(audioString):
     # engine = pyttsx3.init()
     # engine.say(audioString)
     # engine.runAndWait()
+class SpeakMessage(ListAPIView):
+    def post(self,request):
+        message = self.request.POST.get('message')
+        speak(message)
+
+        return Response({
+            "status":True,
+            "You":message,
+        })
+
 
 class Announce(ListAPIView):
     serializer_class = AnnouncementSerializer

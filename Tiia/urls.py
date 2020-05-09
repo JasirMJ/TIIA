@@ -31,9 +31,10 @@ urlpatterns = [
     url('detect/',views.DetectView.as_view()),
     url('getAds/',views.AdverticementView.as_view()),
     url('announce/',views.Announce.as_view()),
+    url('speak/',views.SpeakMessage.as_view()),
 
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL,document_root=settings.STATIC_URL)
-    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_URL)
+    urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

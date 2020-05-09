@@ -23,7 +23,7 @@ class AdverticementSerializer(serializers.ModelSerializer):
     images = ImageSerializer(many=True, read_only=True)
     class Meta:
         model = Adverticements
-        fields = "__all__"
+        fields = ["images"]
 
 class AdsSerializer(serializers.ModelSerializer):
     ads_img = SerializerMethodField()
@@ -32,9 +32,10 @@ class AdsSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def get_ads_img(self, obj):
+        serializer_context = {'request': self.context.get('request')}
         newobj = Adverticements.objects.filter(range=obj.age,gender=obj.gender)
         if newobj.exists():
-            response = AdverticementSerializer(newobj, many=True)
+            response = AdverticementSerializer(newobj, many=True,context=serializer_context)
             return response.data
         else:
             print("0 ads ")

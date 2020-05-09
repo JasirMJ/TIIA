@@ -31,12 +31,14 @@ def there_exists(terms):
 
 
 r = sr.Recognizer()  # initialise a recogniser
+# main
 
 # listen for audio and convert it to text:
 def record_audio(ask=""):
     with sr.Microphone() as source:  # microphone as source
         if ask:
             engine_speak(ask)
+
         audio = r.listen(source, 5, 5)  # listen for the audio via source
         print("Done Listening")
         voice_data = ''
@@ -44,7 +46,8 @@ def record_audio(ask=""):
             voice_data = r.recognize_google(audio)  # convert audio to text
 
         except sr.UnknownValueError:  # error: recognizer does not understand
-            engine_speak('I did not get that')
+            print(sr.UnknownValueError)
+            # engine_speak('I did not get that')
         except sr.RequestError:
             engine_speak('Sorry, the service is down')  # error: recognizer is not connected
         print(">>", voice_data.lower())  # print what user said
@@ -53,12 +56,19 @@ def record_audio(ask=""):
 def voiceMessage(yourmessage,message):
     API_ENDPOINT = URL+"detect/"
 
+    print("You >",yourmessage)
+    print("Bot >",message)
+
     data = {
         "bot": message,
         "you": yourmessage,
         KEY:"voice"
     }
-    r = requests.post(url=API_ENDPOINT, data=data)
+    try:
+        r = requests.post(url=API_ENDPOINT, data=data)
+    except Exception as e:
+        print("Please run your django server")
+        engine_speak("Please run your django server")
 
 def respond(voice_data):
 
@@ -68,113 +78,137 @@ def respond(voice_data):
         engine_speak(message)
         voiceMessage(voice_data,message)
         message = "bye the by Where you want to go? "
-        engine_speak(message)
+        # engine_speak(message)
         voiceMessage("",message)
         while True:
-
             print("Recording")
             voice_data = record_audio()
             print("Done")
-            print("Q:", voice_data)
+            print("Voice>", voice_data)
             # if there_exists(["miyami"]):
             if "china" in voice_data:
                 message="Ok its will arrive on third platform"
-                engine_speak(message)
+                # engine_speak(message)
                 voiceMessage(voice_data,message)
                 break
-
             elif "washington" in voice_data:
                 message="There is no train to washington"
-                engine_speak(message)
+                # engine_speak(message)
                 voiceMessage(voice_data,message)
                 break
-
             elif "china" in voice_data:
                 message="Sorry.. you are late, Its gone"
-                engine_speak(message)
+                # engine_speak(message)
                 voiceMessage(voice_data,message)
                 break
-
             elif "bye" in voice_data:
                 message="ok have a nice day"
-                engine_speak(message)
+                # engine_speak(message)
                 voiceMessage(voice_data,message)
                 break
             elif "exit" in voice_data:
                 message = "ok have a nice day"
-                engine_speak(message)
+                # engine_speak(message)
                 voiceMessage(voice_data, message)
                 break
             else:
                 message="Sorry.. I dont know"
-                engine_speak(message)
+                # engine_speak(message)
                 voiceMessage(voice_data,message)
                 break
 
 
 
 
-    # 1: greeting
+    #greeting
     if there_exists(['hey', 'hi', 'hello']):
         messages = ["hey, how can I help you" , "hey, what's up?",
                      "I'm listening" , "how can I help you?" ,
                      "hello" ]
         message = messages[random.randint(0, len(messages) - 1)]
         voiceMessage(voice_data,message)
-        engine_speak(message)
+        # engine_speak(message)
+
+    #think
+    if there_exists(["What are you thinking", "think", "thinking"]):
+        messages = [
+            "Im thinking you are brilliant",
+            "Noting, you are awsome thats it",
+        ]
+
+        message = messages[random.randint(0, len(messages) - 1)]
+        voiceMessage(voice_data, message)
+        # engine_speak(message)
+        time.sleep(3)
+        voiceMessage("", "")
+        # exit()
+
+    if there_exists(["who are you"]):
+        messages = ["I am Tiia, a prototype developed by Ruksana , Safla , Ulfath and Vibanjika" ,
+                    "Ruksana , Safla , Ulfath and Vibanjika they developed me as a prototype",
+                    ]
+        message = messages[random.randint(0, len(messages) - 1)]
+        voiceMessage(voice_data,message)
+
+    if there_exists(['what you do']):
+        message = "I can help human beings in several ways, i have the functionality to show adverticements relavent to you"
+        voiceMessage(voice_data,message)
+        # engine_speak(message)
+
 
     # 2: name
-    if there_exists(["what is your name", "what's your name", "tell me your name"]):
-        message = "Tiia my name "
-        engine_speak(message)
+    if there_exists(["what is your name", "what's your name", "tell me your name","name"]):
+        messages = [
+            "Tiia my name ",
+            "Tiia",
+        ]
+
+        message = messages[random.randint(0, len(messages) - 1)]
+        # engine_speak(message)
         voiceMessage(voice_data,message)
 
 
-    # 3: greeting
-    if there_exists(["how are you", "how are you doing"]):
-        engine_speak("I'm very well, thanks for asking " )
+    # greeting
+    if there_exists(["how are you"]):
+        # engine_speak("I'm very well, thanks for asking " )
         voiceMessage(voice_data, "I'm very well, thanks for asking " )
 
-    # 4: time
-    if there_exists(["what's the time", "tell me the time", "what time is it"]):
-        time = ctime().split(" ")[3].split(":")[0:2]
-        if time[0] == "00":
-            hours = '12'
-        else:
-            hours = time[0]
-        minutes = time[1]
-        time = hours + " hours and " + minutes + "minutes"
-        engine_speak(time)
-        voiceMessage(voice_data, time)
-
-    # 5: search google
+    #search google
     if there_exists(["search for"]) and 'youtube' not in voice_data:
         search_term = voice_data.split("for")[-1]
         url = "https://google.com/search?q=" + search_term
         webbrowser.get().open(url)
-        engine_speak("Here is what I found for" + search_term + "on google")
+        # engine_speak("Here is what I found for" + search_term + "on google")
         voiceMessage(voice_data, "Here is what I found for" + search_term + "on google")
 
-    # 6: search youtube
+    # search youtube
     if there_exists(["youtube"]):
         search_term = voice_data.split("for")[-1]
         url = "https://www.youtube.com/results?search_query=" + search_term
         webbrowser.get().open(url)
-        engine_speak("Here is what I found for " + search_term + "on youtube")
+        # engine_speak("Here is what I found for " + search_term + "on youtube")
         voiceMessage(voice_data, "Here is what I found for " + search_term + "on youtube")
 
-    # 7: get stock price
     if there_exists(["price of"]):
         search_term = voice_data.split("for")[-1]
         url = "https://google.com/search?q=" + search_term
         webbrowser.get().open(url)
-        engine_speak("Here is what I found for " + search_term + " on google")
+        # engine_speak("Here is what I found for " + search_term + " on google")
         voiceMessage(voice_data, "Here is what I found for " + search_term + " on google")
 
-    if there_exists(["exit", "quit", "goodbye"]):
+
+    if there_exists(["exit", "quit", "goodbye","bye"]):
         message="bye, have a nice day"
         voiceMessage(voice_data, message)
-        engine_speak(message)
+        # engine_speak(message)
+        time.sleep(3)
+        voiceMessage("", "")
+
+    if there_exists(["goodnight","good night"]):
+        message="Good night ,  sweet dreams"
+        voiceMessage(voice_data, message)
+
+        # engine_speak(message)
         time.sleep(3)
         voiceMessage("", "")
         # exit()

@@ -13,6 +13,7 @@ class Images(models.Model):
     def __str__(self):
         return self.file.name
 
+
 class Adverticements(models.Model):
     range = models.CharField(max_length=20,null=False,choices=[
         ('(0-2)', '(0-2)'),

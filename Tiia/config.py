@@ -24,7 +24,7 @@ Installataion
 6.pywin32
     pip install pywin32
 7.pyaudio
-
+    python -m pip install pyaudio
 ----------------------------
 
 In terminal
@@ -33,10 +33,10 @@ then you get ip of your system in console, copy and replace it on config.py
 In second terminal 
 second> python detect.py
 In third terminal 
-third> python TextToSpeech.py
+third> python speechRecognition.py
 then see the UI, its all done
 
 Admin
-u : Tiia
-p : tiiatiia
+user : Tiia
+pass : tiiatiia
 '''

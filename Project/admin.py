@@ -6,3 +6,4 @@ from .models import *
 admin.site.register(Adverticements)
 admin.site.register(Images)
 admin.site.register(Announcement)
+# list_display = ('image_tag', )
