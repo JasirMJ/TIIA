@@ -1,7 +1,7 @@
 STATUS="Status"
 MESSAGE="Message"
 KEY = "Key"
-IP="192.168.43.188"
+IP="127.0.0.1"
 
 
 URL = "http://"+IP+":8000/"
